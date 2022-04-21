@@ -9,6 +9,7 @@ import {
   Animated,
   TextInput,
   Dimensions,
+  Image
 } from "react-native";
 import Btn from "../components/Btn";
 import { SliderHuePicker } from "react-native-slider-color-picker";
@@ -34,13 +35,16 @@ function TextEditor({ route, navigation, ...props }) {
   const [fontSize] = useState(30);
   const [textColor, setTextColor] = useState("#fff");
   const [opacity, setOpacity] = useState(1);
+  console.log("PROPS", props.photo_data.assets[0].width)
+  const propWidth = props.photo_data.assets[0].width;
+  const propHeight = props.photo_data.assets[0].height;
 
   const aspectRatio =
-    props.photo_data.height > props.photo_data.width
-      ? windowHeight / props.photo_data.height
-      : windowWidth / props.photo_data.width;
-  const surfaceHeight = props.photo_data.height * aspectRatio;
-  const surfaceWidth = props.photo_data.width * aspectRatio;
+  propHeight > propWidth
+      ? windowHeight / propHeight
+      : windowWidth / propWidth;
+  const surfaceHeight = propHeight * aspectRatio;
+  const surfaceWidth = propWidth * aspectRatio;
 
   //Rotation
   const _rotate = new Animated.Value(0);
@@ -122,29 +126,15 @@ function TextEditor({ route, navigation, ...props }) {
       surfaceWidth: surfaceWidth,
     });
   };
-console.log("PROPS", props.photo_uri)
-const image = { uri: "https://reactjs.org/logo-og.png" };
+const image = "https://reactjs.org/logo-og.png" ;
+var myImage = require('../../assets/splash.png');
+
   return (
     <View style={styles.container}>
+      
       <BackArrowHeader navigation={navigation} />
+   
       <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#aaa",
-        }}
-      >
-        <Text>Hi</Text>
-        <ImageBackground
-          source={image}
-          style={{
-            width: surfaceWidth,
-            height: surfaceHeight,
-          }}
-        ></ImageBackground>
-        </View>
-      {/* <View
         style={{
           flex: 1,
           justifyContent: "center",
@@ -256,7 +246,7 @@ const image = { uri: "https://reactjs.org/logo-og.png" };
             </PinchGestureHandler>
           </Animated.View>
         </ImageBackground>
-      </View> */}
+      </View> 
 
       {fontPicker ? (
         <View
