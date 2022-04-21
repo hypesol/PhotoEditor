@@ -109,14 +109,14 @@ const store = createStore(reducer);
 
 import MainScreen from "./app/screens/MainScreen";
 import EditorScreen from "./app/screens/EditorScreen";
-// import StikersScreen from "./app/screens/StikersScreen";
-// import FiltersScreen from "./app/screens/FiltersScreen";
-// import SliderScreen from "./app/screens/SliderScreen";
-// import TextEditor from "./app/screens/TextEditor";
-// import SaveScreen from "./app/screens/SaveScreen";
-// import StickersEditor from "./app/screens/StickersEditor";
-// import FiltersPresetsScreen from "./app/screens/FiltersPresetsScreen";
-// import RotationScreen from "./app/screens/RotationScreen";
+import StikersScreen from "./app/screens/StikersScreen";
+import FiltersScreen from "./app/screens/FiltersScreen";
+import SliderScreen from "./app/screens/SliderScreen";
+import TextEditor from "./app/screens/TextEditor";
+import SaveScreen from "./app/screens/SaveScreen";
+import StickersEditor from "./app/screens/StickersEditor";
+import FiltersPresetsScreen from "./app/screens/FiltersPresetsScreen";
+import RotationScreen from "./app/screens/RotationScreen";
 // import { AppLoading } from "expo";
 // RotationScreen;
 
@@ -124,16 +124,16 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [loading, setloading] = useState(true);
-  if (loading) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => {
-          setloading(false);
-        }}
-      />
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <AppLoading
+  //       startAsync={fetchFonts}
+  //       onFinish={() => {
+  //         setloading(false);
+  //       }}
+  //     />
+  //   );
+  // }
   fetchFonts();
   return (
     <Provider store={store}>
@@ -158,7 +158,7 @@ export default function App() {
             component={FiltersPresetsScreen}
           />
         </Stack.Navigator>
-        <StatusBar hidden={true} />
+        {/* <StatusBar hidden={true} /> */}
       </NavigationContainer>
     </Provider>
   );

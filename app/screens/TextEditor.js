@@ -122,12 +122,29 @@ function TextEditor({ route, navigation, ...props }) {
       surfaceWidth: surfaceWidth,
     });
   };
-
+console.log("PROPS", props.photo_uri)
+const image = { uri: "https://reactjs.org/logo-og.png" };
   return (
     <View style={styles.container}>
       <BackArrowHeader navigation={navigation} />
-
       <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#aaa",
+        }}
+      >
+        <Text>Hi</Text>
+        <ImageBackground
+          source={image}
+          style={{
+            width: surfaceWidth,
+            height: surfaceHeight,
+          }}
+        ></ImageBackground>
+        </View>
+      {/* <View
         style={{
           flex: 1,
           justifyContent: "center",
@@ -239,7 +256,7 @@ function TextEditor({ route, navigation, ...props }) {
             </PinchGestureHandler>
           </Animated.View>
         </ImageBackground>
-      </View>
+      </View> */}
 
       {fontPicker ? (
         <View

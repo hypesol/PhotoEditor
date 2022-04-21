@@ -9,7 +9,9 @@ import {
   Easing,
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from 'react-native-image-picker';
+
 import { connect } from "react-redux";
 
 const windowHeight = Dimensions.get("window").height;
@@ -36,24 +38,39 @@ function MainScreen({ navigation, ...props }) {
     processImage(pickerResult);
   };
   const openImagePicker = async () => {
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+    // const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    // if (permissionResult.granted === false) {
+    //   alert("Permission to access camera roll is required!");
+    //   return;
+    // }
+    const pickerResult = await ImagePicker.launchImageLibrary({
       allowsEditing: true,
     });
+    // console.log(pickerResult.assets[0].uri)
     processImage(pickerResult);
+
+
+    // ImagePicker.launchImageLibrary(options, response => {
+
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker');
+    //   } else if (response.error) {
+    //     console.log('ImagePicker Error: ', response.error);
+    //   } else {
+    //     let source = response.assets[0].uri;
+    //   }
+    // }
+    // )
   };
 
   const processImage = (pickerResult) => {
-    if (pickerResult.cancelled == false) {
+    console.log("PIMAGE",pickerResult)
+    if (pickerResult.assets) {
       props.setPhotoData(pickerResult);
-      props.setPhotoUri(pickerResult.uri);
-      props.setOriginalPhoto(pickerResult.uri);
-      props.setPhotoWidth(pickerResult.width);
-      props.setPhotoHeight(pickerResult.height);
+      props.setPhotoUri(pickerResult.assets[0].uri);
+      props.setOriginalPhoto(pickerResult.assets[0].uri);
+      props.setPhotoWidth(pickerResult.assets[0].width);
+      props.setPhotoHeight(pickerResult.assets[0].height);
       navigation.push("Editor");
     }
   };
@@ -91,6 +108,7 @@ function MainScreen({ navigation, ...props }) {
             onPressOut={() => setTouchedCamera(false)}
           >
             <View style={touchedCamera ? styles.btnPressed : styles.btn}>
+              <Text>Camera</Text>
               <SimpleLineIcons
                 name="camera"
                 size={84}
@@ -107,6 +125,7 @@ function MainScreen({ navigation, ...props }) {
             onPressOut={() => setTouchedGallery(false)}
           >
             <View style={touchedGallery ? styles.btnPressed : styles.btn}>
+              <Text>Gallery</Text>
               <SimpleLineIcons
                 name="picture"
                 size={84}

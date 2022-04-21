@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, Image } from "react-native";
 import Btn from "../components/Btn";
-// import { Surface } from "gl-react-native";
+import { Surface } from "gl-react-native";
 import ImageFilters from "react-native-gl-image-filters";
 import ViewShot from "react-native-view-shot";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 import * as Sharing from "expo-sharing";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { connect } from "react-redux";
@@ -15,29 +15,29 @@ const windowHeight = Dimensions.get("window").height - 100;
 function EditorScreen({ navigation, ...props }) {
   const [showAlert, setShowAlert] = useState(false);
   const viewShot = useRef();
+  
+  // const saveToLibrary = async () => {
+  //   const permissionResult = await MediaLibrary.getPermissionsAsync();
+  //   if (permissionResult.granted === false) {
+  //     alert("Permission to access camera roll is required!");
+  //     return;
+  //   }
+  //   viewShot.current.capture().then((uri) => {
+  //     MediaLibrary.saveToLibraryAsync(uri);
+  //     setShowAlert(true);
+  //   });
+  // };
 
-  const saveToLibrary = async () => {
-    const permissionResult = await MediaLibrary.getPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-    viewShot.current.capture().then((uri) => {
-      MediaLibrary.saveToLibraryAsync(uri);
-      setShowAlert(true);
-    });
-  };
-
-  const shareImage = async () => {
-    const permissionResult = await MediaLibrary.getPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-    viewShot.current.capture().then((uri) => {
-      Sharing.shareAsync(uri);
-    });
-  };
+  // const shareImage = async () => {
+  //   const permissionResult = await MediaLibrary.getPermissionsAsync();
+  //   if (permissionResult.granted === false) {
+  //     alert("Permission to access camera roll is required!");
+  //     return;
+  //   }
+  //   viewShot.current.capture().then((uri) => {
+  //     Sharing.shareAsync(uri);
+  //   });
+  // };
 
   const aspectRatio =
     props.photo_height > props.photo_width
@@ -88,7 +88,23 @@ function EditorScreen({ navigation, ...props }) {
           />
         </View>
       </View>
-      <AwesomeAlert
+      <ViewShot
+        ref={viewShot}
+        options={{ format: "jpg", quality: 0.9 }}
+        style={{
+          width: surfaceWidth,
+          height: surfaceHeight,
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+    <Image
+            source={{ uri: props.photo_uri }}
+            style={{ width: 300, height: 300 }}
+          />
+         </ViewShot>
+      {/* <AwesomeAlert
         show={showAlert}
         title="Saved to gallery"
         message="Do you like our editor?"
@@ -114,8 +130,8 @@ function EditorScreen({ navigation, ...props }) {
         titleStyle={{ color: "#9665CE" }}
         messageStyle={{ color: "#AB9CBE" }}
         contentContainerStyle={{ borderRadius: 0 }}
-      />
-      <ViewShot
+      /> */}
+      {/* <ViewShot
         ref={viewShot}
         options={{ format: "jpg", quality: 0.9 }}
         style={{
@@ -126,12 +142,14 @@ function EditorScreen({ navigation, ...props }) {
           justifyContent: "center",
         }}
       >
-        {/* <Surface
+        <Surface
+        width={300}
+        height={300}
           style={{
             width: surfaceWidth,
             height: surfaceHeight,
           }}
-        > */}
+        >
           <ImageFilters
             hue={props.hue}
             blur={30}
@@ -145,8 +163,8 @@ function EditorScreen({ navigation, ...props }) {
           >
             {{ uri: props.photo_uri }}
           </ImageFilters>
-        {/* </Surface> */}
-      </ViewShot>
+        </Surface>
+      </ViewShot> */}
 
       <View style={styles.footer}>
         <View style={styles.footerBtns}>
@@ -196,6 +214,7 @@ function EditorScreen({ navigation, ...props }) {
     </View>
   );
 }
+// export default EditorScreen;
 export default connect(mapStateToProps, mapDispatchToProps)(EditorScreen);
 function mapDispatchToProps(dispatch) {
   return {
